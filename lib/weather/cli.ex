@@ -5,6 +5,7 @@ defmodule Weather.Cli do
 
   def run(argv) do
     parse_args(argv)
+    |> process
   end
 
   @doc """
@@ -12,13 +13,36 @@ defmodule Weather.Cli do
   """
   def parse_args(argv) do
     # -h 일 경우는 :help
-    parse = OptionParser.parse(argv, switches: [help: :boolean], aliases: [h: :help])
 
-    case parse do
-      {[help: true], _, _} -> :help
-      {_, [city], _} -> {city}
-      {_, _, _} -> {"인천"}
-      _ -> :help
-    end
+    OptionParser.parse(argv, switches: [help: :boolean], aliases: [h: :help])
+    |> args_to_internal
+  end
+
+  def args_to_internal({[help: true], _, _}) do
+    :help
+  end
+
+  def args_to_internal({_, [city], _}) do
+    {city}
+  end
+
+  def args_to_internal({_, [], _}) do
+    {"인천"}
+  end
+
+  def args_to_internal({_, _, _}) do
+    :help
+  end
+
+  def process(:help) do
+    IO.puts("""
+    usage: weather <도시이름>
+    """)
+
+    System.halt(0)
+  end
+
+  def process({city}) do
+    Weather.Forecast.fetch(city)
   end
 end

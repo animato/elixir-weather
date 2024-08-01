@@ -5,8 +5,8 @@ defmodule WeatherCliTest do
   import Weather.Cli, only: [parse_args: 1]
 
   test "-h나 --help가 옵션으로 파싱되면 :help가 반환된다." do
-    assert parse_args(["-h", "아무거나"]) == :help
-    assert parse_args(["--help", "아무거나"]) == :help
+    assert parse_args(["-h", "아무거나1"]) == :help
+    assert parse_args(["--help", "아무거나2"]) == :help
   end
 
   test "파라미터로 도시 값을 전달하면 도시 값이 반환된다" do
