@@ -43,6 +43,6 @@ defmodule Weather.Cli do
   end
 
   def process({city}) do
-    Weather.Forecast.fetch(city)
+    Weather.Forecast.fetch()
   end
 end
