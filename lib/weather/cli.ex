@@ -22,12 +22,12 @@ defmodule Weather.Cli do
     :help
   end
 
-  def args_to_internal({_, [city], _}) do
-    {city}
+  def args_to_internal({_, [region], _}) do
+    {region}
   end
 
   def args_to_internal({_, [], _}) do
-    {"인천"}
+    {"전국"}
   end
 
   def args_to_internal({_, _, _}) do
@@ -36,13 +36,21 @@ defmodule Weather.Cli do
 
   def process(:help) do
     IO.puts("""
-    usage: weather <도시이름>
+    usage: weather <지역이름: 전국, 서울경기도>
     """)
 
     System.halt(0)
   end
 
-  def process({city}) do
-    Weather.Forecast.fetch()
+  def process({region}) do
+    Weather.Forecast.fetch(region)
+    |> decode_response()
+  end
+
+  def decode_response({:ok, body}), do: body
+
+  def decode_response({:error, error}) do
+    IO.puts("기상 정보 획득 에러: #{error["message"]}")
+    System.halt(2)
   end
 end

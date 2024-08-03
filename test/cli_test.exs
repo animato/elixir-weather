@@ -9,12 +9,12 @@ defmodule WeatherCliTest do
     assert parse_args(["--help", "아무거나2"]) == :help
   end
 
-  test "파라미터로 도시 값을 전달하면 도시 값이 반환된다" do
+  test "파라미터로 지역 값을 전달하면 지역 값이 반환된다" do
     assert parse_args(["인천"]) == {"인천"}
     assert parse_args(["서울"]) == {"서울"}
   end
 
-  test "파라미터로 도시 값을 전달하지 않으면 기본 도시 값이 반환된다" do
-    assert parse_args([]) == {"인천"}
+  test "파라미터로 지역 값을 전달하지 않으면 기본 지역 값이 반환된다" do
+    assert parse_args([]) == {"전국"}
   end
 end
