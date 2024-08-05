@@ -1,11 +1,14 @@
 defmodule Weather.Cli do
+  import Weather.Printer, only: [print: 1]
+
   @moduledoc """
   명령줄 파싱을 수행한 뒤 각종 함수를 호출해 기상청 날씨 정보를 출력
   """
 
-  def run(argv) do
+  def main(argv) do
     parse_args(argv)
     |> process
+    |> print
   end
 
   @doc """

@@ -1,6 +1,6 @@
 defmodule Weather.Forecast do
   @url Application.compile_env(:weather, :url, "?")
-  
+
   def fetch(region) do
     url(region)
     |> HTTPoison.get()
@@ -10,11 +10,12 @@ defmodule Weather.Forecast do
   def url(region) do
     # "http://www.kma.go.kr/weather/forecast/mid-term-rss3.jsp?stnId=109"
     # "https://www.kma.go.kr/wid/queryDFSRSS.jsp?zone=2824561100"
-    code = case region do
-      "전국" -> 108
-      "서울경기도" -> 109
-    end
-    
+    code =
+      case region do
+        "전국" -> 108
+        "서울경기도" -> 109
+      end
+
     "#{@url}?stnId=#{code}"
   end
 
@@ -54,5 +55,4 @@ defmodule Weather.Forecast do
   defp xpath(xml, path) do
     :xmerl_xpath.string(path, xml)
   end
-
 end
