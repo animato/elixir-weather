@@ -1,7 +1,10 @@
 defmodule Weather.Forecast do
+  require Logger
   @url Application.compile_env(:weather, :url, "?")
 
   def fetch(region) do
+    Logger.info("#{region} 지역 중기예보를 가져옵니다.")
+
     url(region)
     |> HTTPoison.get()
     |> handle_response
@@ -20,6 +23,9 @@ defmodule Weather.Forecast do
   end
 
   def handle_response({:ok, %{status_code: status_code, body: body}}) do
+    Logger.info("응답을 받았습니다: status code=#{status_code}")
+    Logger.debug(fn -> inspect(body) end)
+
     {
       status_code |> check_for_error(),
       body |> parse_xml()
